@@ -1,81 +1,79 @@
-import { Button } from "@/components/ui/button";
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import { pets } from "@/lib/data";
-import { CheckCircle, PawPrint } from "lucide-react";
-import Image from "next/image";
-import Link from "next/link";
-import { notFound } from 'next/navigation';
+'use client'
 
-export default function PetDetailPage({ params }: { params: { id: string } }) {
-    const pet = pets.find(p => p.id === params.id);
+import { useState } from 'react';
+import { Button } from '@/components/ui/button';
+import { Card, CardContent, CardHeader, CardTitle, CardDescription } from '@/components/ui/card';
+import { Progress } from '@/components/ui/progress';
+import { RadioGroup, RadioGroupItem } from '@/components/ui/radio-group';
+import { Label } from '@/components/ui/label';
+import { quizQuestions } from '@/lib/data';
+import { PawPrint } from 'lucide-react';
+import Link from 'next/link';
 
-    if (!pet) {
-        notFound();
+export default function QuizPage() {
+  const [currentStep, setCurrentStep] = useState(0);
+  const [answers, setAnswers] = useState<Record<string, string>>({});
+  const [isCompleted, setIsCompleted] = useState(false);
+
+  const handleAnswerChange = (questionId: string, value: string) => {
+    setAnswers(prev => ({ ...prev, [questionId]: value }));
+  };
+
+  const handleNext = () => {
+    if (currentStep < quizQuestions.length - 1) {
+      setCurrentStep(currentStep + 1);
+    } else {
+      // Handle quiz completion
+      setIsCompleted(true);
     }
+  };
 
+  const progress = ((currentStep + 1) / quizQuestions.length) * 100;
+  const currentQuestion = quizQuestions[currentStep];
+
+  if (isCompleted) {
     return (
-        <div className="container mx-auto py-12">
-            <div className="grid md:grid-cols-2 gap-12 items-start">
-                {/* Image Gallery */}
-                <div>
-                    <div className="relative aspect-square w-full rounded-xl overflow-hidden mb-4">
-                        <Image src={pet.images[0]} alt={pet.name} layout="fill" objectFit="cover" />
-                    </div>
-                    <div className="grid grid-cols-4 gap-2">
-                        {pet.images.map((img, index) => (
-                            <div key={index} className="relative aspect-square rounded-lg overflow-hidden">
-                                <Image src={img} alt={`${pet.name} - ${index+1}`} layout="fill" objectFit="cover" />
-                            </div>
-                        ))}
-                    </div>
-                </div>
-
-                {/* Pet Details */}
-                <div>
-                    <h1 className="text-4xl font-bold text-slate-800">{pet.name}</h1>
-                    <p className="text-lg text-slate-500 mt-1">{pet.breed}</p>
-                    
-                    <div className="flex flex-wrap gap-2 mt-4">
-                        <div className="bg-rose-100 text-primary px-3 py-1 rounded-full text-sm font-semibold">{pet.age}</div>
-                        <div className="bg-sky-100 text-sky-600 px-3 py-1 rounded-full text-sm font-semibold">{pet.gender}</div>
-                        <div className="bg-amber-100 text-amber-600 px-3 py-1 rounded-full text-sm font-semibold">{pet.size}</div>
-                    </div>
-
-                    <Card className="mt-8">
-                        <CardHeader>
-                            <CardTitle className="flex items-center gap-2"><PawPrint className="text-primary"/> {pet.name}'s Story</CardTitle>
-                        </CardHeader>
-                        <CardContent>
-                            <p className="text-slate-600">{pet.story}</p>
-                        </CardContent>
-                    </Card>
-
-                     <Card className="mt-6">
-                        <CardHeader>
-                            <CardTitle>Personality & Traits</CardTitle>
-                        </CardHeader>
-                        <CardContent>
-                            <ul className="space-y-2">
-                                {pet.personalityTraits.map((trait, index) => (
-                                    <li key={index} className="flex items-center gap-2 text-slate-600">
-                                        <CheckCircle className="h-5 w-5 text-green-500" />
-                                        <span>{trait}</span>
-                                    </li>
-                                ))}
-                            </ul>
-                        </CardContent>
-                    </Card>
-
-                    <Button size="lg" className="w-full mt-8 text-lg rounded-full">
-                        Start Adoption Process
-                    </Button>
-                </div>
-            </div>
-             <div className="text-center mt-16">
-                <Button asChild variant="outline" className="rounded-full">
-                    <Link href="/pets">Back to All Pets</Link>
-                </Button>
-            </div>
-        </div>
+      <div className="container mx-auto max-w-2xl py-12 text-center">
+        <Card className="p-8">
+            <PawPrint className="mx-auto h-16 w-16 text-primary mb-4"/>
+            <h1 className="text-3xl font-bold">Quiz Completed!</h1>
+            <p className="text-slate-600 mt-2">We're finding the best matches for you.</p>
+            <Button asChild size="lg" className="mt-8">
+                <Link href="/pets">See Your Matches</Link>
+            </Button>
+        </Card>
+      </div>
     )
+  }
+
+  return (
+    <div className="bg-rose-50 min-h-screen flex items-center justify-center py-12 px-4">
+      <Card className="w-full max-w-2xl">
+        <CardHeader>
+          <Progress value={progress} className="mb-4" />
+          <CardTitle className="text-2xl">Pet Matcher Quiz</CardTitle>
+          <CardDescription>{currentQuestion.question}</CardDescription>
+        </CardHeader>
+        <CardContent>
+          <RadioGroup 
+            onValueChange={(value) => handleAnswerChange(currentQuestion.id, value)}
+            className="space-y-4"
+            value={answers[currentQuestion.id] || ''}
+            >
+            {currentQuestion.options.map((option, index) => (
+              <Label key={index} className="flex items-center gap-4 p-4 border rounded-lg has-[:checked]:bg-rose-50 has-[:checked]:border-primary cursor-pointer transition-colors">
+                <RadioGroupItem value={option} id={`${currentQuestion.id}-${index}`} />
+                <span>{option}</span>
+              </Label>
+            ))}
+          </RadioGroup>
+          <div className="mt-8 flex justify-end">
+            <Button onClick={handleNext} disabled={!answers[currentQuestion.id]}>
+              {currentStep === quizQuestions.length - 1 ? 'Finish' : 'Next'}
+            </Button>
+          </div>
+        </CardContent>
+      </Card>
+    </div>
+  );
 }
