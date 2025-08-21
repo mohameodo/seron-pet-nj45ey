@@ -1,66 +1,75 @@
-import { FeaturedPets } from "@/components/FeaturedPets";
-import { Button } from "@/components/ui/button";
-import { PawPrint, Heart, Search } from 'lucide-react';
-import Link from "next/link";
+'use client';
 
-export default function HomePage() {
+import { useState, useMemo } from 'react';
+import { PetCard } from '@/components/PetCard';
+import { PetFilter } from '@/components/PetFilter';
+import { allPets, Pet } from '@/data/pets';
+import { Input } from '@/components/ui/input';
+import { Search } from 'lucide-react';
+
+export default function PetsPage() {
+  const [filters, setFilters] = useState({
+    species: 'all',
+    age: 'all',
+    size: 'all',
+  });
+  const [searchTerm, setSearchTerm] = useState('');
+
+  const filteredPets = useMemo(() => {
+    return allPets.filter(pet => {
+      const matchesFilter = 
+        (filters.species === 'all' || pet.species === filters.species) &&
+        (filters.age === 'all' || pet.ageCategory === filters.age) &&
+        (filters.size === 'all' || pet.size === filters.size);
+      
+      const matchesSearch = 
+        searchTerm === '' ||
+        pet.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
+        pet.breed.toLowerCase().includes(searchTerm.toLowerCase());
+
+      return matchesFilter && matchesSearch;
+    });
+  }, [filters, searchTerm]);
+
   return (
-    <div className="flex flex-col items-center">
-      {/* Hero Section */}
-      <section className="w-full text-center py-20 lg:py-32 bg-rose-100/60 relative overflow-hidden">
-        <div className="absolute -top-10 -left-10 w-40 h-40 text-rose-200/50">
-            <PawPrint className="w-full h-full transform rotate-[-30deg]"/>
-        </div>
-        <div className="absolute -bottom-12 -right-12 w-52 h-52 text-rose-200/50">
-            <Heart className="w-full h-full transform rotate-[20deg]"/>
-        </div>
-        <div className="container mx-auto px-4 z-10 relative">
-          <h1 className="text-4xl md:text-6xl font-bold text-slate-800 mb-4 tracking-tight">Find Your Forever Friend</h1>
-          <p className="text-lg md:text-xl text-slate-600 max-w-2xl mx-auto mb-8">Discover adorable pets waiting for a loving home. Your new best friend is just a click away.</p>
-          <div className="flex justify-center gap-4 flex-wrap">
-            <Button asChild size="lg" className="bg-rose-500 hover:bg-rose-600 text-white rounded-full shadow-lg transition-transform transform hover:scale-105">
-              <Link href="/pets"><Search className="mr-2 h-5 w-5"/> Browse Pets</Link>
-            </Button>
-            <Button asChild size="lg" variant="outline" className="rounded-full shadow-lg transition-transform transform hover:scale-105 border-rose-500 text-rose-500 hover:bg-rose-500 hover:text-white">
-              <Link href="/quiz"><Heart className="mr-2 h-5 w-5"/> Take the Match Quiz</Link>
-            </Button>
+    <div className="container mx-auto px-4 py-12">
+      <div className="text-center mb-12">
+        <h1 className="text-4xl md:text-5xl font-bold text-slate-800 mb-2">Meet Your New Best Friend</h1>
+        <p className="text-lg text-slate-600">Browse our available pets and find the perfect companion for your family.</p>
+      </div>
+      
+      <div className="flex flex-col md:flex-row gap-8 mb-8">
+        <div className="w-full md:w-1/4">
+          <div className="sticky top-24">
+             <div className="relative mb-4">
+                <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-5 w-5 text-gray-400" />
+                <Input 
+                    type="text"
+                    placeholder="Search by name or breed..."
+                    className="pl-10 w-full"
+                    value={searchTerm}
+                    onChange={(e) => setSearchTerm(e.target.value)}
+                />
+            </div>
+            <PetFilter filters={filters} setFilters={setFilters} />
           </div>
         </div>
-      </section>
 
-      {/* Featured Pets Section */}
-      <FeaturedPets />
-
-      {/* How It Works Section */}
-      <section className="w-full py-20 lg:py-24 bg-white">
-        <div className="container mx-auto px-4 text-center">
-          <h2 className="text-3xl md:text-4xl font-bold text-slate-800 mb-2">Adoption Made Easy</h2>
-          <p className="text-slate-600 mb-12 max-w-xl mx-auto">Follow these simple steps to find and welcome your new family member.</p>
-          <div className="grid md:grid-cols-3 gap-8 text-left">
-            <div className="p-6 bg-rose-50 rounded-xl flex items-start gap-4">
-              <div className="bg-rose-500 text-white rounded-full h-12 w-12 flex-shrink-0 flex items-center justify-center font-bold text-xl">1</div>
-              <div>
-                <h3 className="text-xl font-semibold text-slate-700 mb-2">Search Pets</h3>
-                <p className="text-slate-500">Browse through profiles of lovely pets with detailed information and photos.</p>
-              </div>
+        <div className="w-full md:w-3/4">
+          {filteredPets.length > 0 ? (
+            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+              {filteredPets.map(pet => (
+                <PetCard key={pet.id} pet={pet} />
+              ))}
             </div>
-            <div className="p-6 bg-rose-50 rounded-xl flex items-start gap-4">
-              <div className="bg-rose-500 text-white rounded-full h-12 w-12 flex-shrink-0 flex items-center justify-center font-bold text-xl">2</div>
-              <div>
-                <h3 className="text-xl font-semibold text-slate-700 mb-2">Find Your Match</h3>
-                <p className="text-slate-500">Use our quiz to find a pet that matches your personality and lifestyle.</p>
-              </div>
+          ) : (
+            <div className="text-center py-20 bg-gray-50 rounded-lg">
+                <p className="text-xl text-slate-600">No pets match your criteria.</p>
+                <p className="text-slate-500 mt-2">Try adjusting your filters or search term!</p>
             </div>
-            <div className="p-6 bg-rose-50 rounded-xl flex items-start gap-4">
-              <div className="bg-rose-500 text-white rounded-full h-12 w-12 flex-shrink-0 flex items-center justify-center font-bold text-xl">3</div>
-              <div>
-                <h3 className="text-xl font-semibold text-slate-700 mb-2">Start Your Life Together</h3>
-                <p className="text-slate-500">Complete the adoption process and bring your new companion home.</p>
-              </div>
-            </div>
-          </div>
+          )}
         </div>
-      </section>
+      </div>
     </div>
   );
 }
