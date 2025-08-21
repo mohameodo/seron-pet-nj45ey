@@ -1,24 +1,24 @@
-import type { Metadata } from "next";
-import { Inter } from "next/font/google";
-import "./globals.css";
-import Header from "@/components/Header";
-import Footer from "@/components/Footer";
+import type { Metadata } from 'next';
+import { Poppins } from 'next/font/google';
+import './globals.css';
+import { Header } from '@/components/Header';
+import { Footer } from '@/components/Footer';
 
-const inter = Inter({ subsets: ["latin"], variable: "--font-sans" });
+const poppins = Poppins({ subsets: ['latin'], weight: ['300', '400', '500', '600', '700'] });
 
 export const metadata: Metadata = {
-  title: "PawsConnect - Find Your Forever Friend",
-  description: "A heartwarming platform to connect loving families with adorable pets for adoption.",
+  title: 'PawsConnect - Find Your Forever Friend',
+  description: 'A heartwarming platform to connect loving families with adorable pets.',
 };
 
 export default function RootLayout({
   children,
-}: Readonly<{
+}: {
   children: React.ReactNode;
-}>) {
+}) {
   return (
-    <html lang="en" className="scroll-smooth">
-      <body className={`${inter.className} bg-pink-50/50`}>
+    <html lang="en">
+      <body className={`${poppins.className} bg-cream text-brown-dark`}>
         <Header />
         <main className="min-h-screen">
           {children}
