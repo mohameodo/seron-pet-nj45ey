@@ -1,30 +1,30 @@
-import { Inter } from 'next/font/google'
-import './globals.css'
-import { cn } from '@/lib/utils'
-import Navbar from '@/components/Navbar'
-import Footer from '@/components/Footer'
+import type { Metadata } from "next";
+import { Inter } from "next/font/google";
+import "./globals.css";
+import { Header } from "@/components/Header";
+import { Footer } from "@/components/Footer";
 
-const inter = Inter({ subsets: ['latin'] })
+const inter = Inter({ subsets: ["latin"] });
 
-export const metadata = {
-  title: 'PawsConnect - Find Your Forever Friend',
-  description: 'A heartwarming pet adoption platform.',
-}
+export const metadata: Metadata = {
+  title: "PawsConnect - Find Your Forever Friend",
+  description: "A heartwarming platform to connect loving families with adorable pets.",
+};
 
 export default function RootLayout({
   children,
-}: {
-  children: React.ReactNode
-}) {
+}: Readonly<{
+  children: React.ReactNode;
+}>) {
   return (
     <html lang="en">
-      <body className={cn(inter.className, 'bg-gray-50')}>
-        <Navbar />
+      <body className={`${inter.className} bg-pink-50/50`}>
+        <Header />
         <main className="min-h-screen">
           {children}
         </main>
         <Footer />
       </body>
     </html>
-  )
+  );
 }
