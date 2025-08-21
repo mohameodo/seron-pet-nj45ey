@@ -1,2 +1,63 @@
-# seron-pet-nj45ey
-Pet  - Created with Seron
+# Pet 
+
+Created with Seron AI
+
+## Description
+This project was generated using Seron, an AI-powered web development tool.
+
+## Chat History
+The complete conversation that created this project is available in `chat-history.json`.
+
+## Project Files
+- `tailwind.config.js` (2KB)
+- `globals.css` (1KB)
+- `layout.tsx` (1KB)
+- `page.tsx` (5KB)
+- `page.tsx` (0KB)
+- `page.tsx` (4KB)
+- `page.tsx` (3KB)
+- `page.tsx` (2KB)
+- `Navbar.tsx` (1KB)
+- `Footer.tsx` (2KB)
+- `PetGrid.tsx` (5KB)
+- `utils.ts` (0KB)
+- `data.ts` (5KB)
+- `button.tsx` (2KB)
+- `card.tsx` (2KB)
+- `select.tsx` (4KB)
+- `progress.tsx` (1KB)
+- `radio-group.tsx` (1KB)
+- `label.tsx` (1KB)
+- `package.json` (1KB)
+- `tailwind.config.ts` (2KB)
+- `tailwind.config.ts` (2KB)
+- `globals.css` (2KB)
+- `layout.tsx` (1KB)
+- `page.tsx` (4KB)
+- `page.tsx` (3KB)
+- `package.json` (1KB)
+- `tailwind.config.ts` (2KB)
+- `postcss.config.js` (0KB)
+- `globals.css` (1KB)
+- `layout.tsx` (1KB)
+- `page.tsx` (4KB)
+- `page.tsx` (4KB)
+- `[id]/page.tsx` (3KB)
+- `page.tsx` (3KB)
+- `page.tsx` (3KB)
+- `Header.tsx` (1KB)
+- `Footer.tsx` (1KB)
+- `PetCard.tsx` (1KB)
+- `Button.tsx` (2KB)
+- `mockData.ts` (5KB)
+- `types.ts` (0KB)
+- `utils.ts` (0KB)
+
+## Features
+- Interactive web application
+- AI-generated code
+- Complete development history
+- Ready to deploy
+
+---
+🤖 Generated with [Seron](https://seron.dev) - AI-powered web development assistant
