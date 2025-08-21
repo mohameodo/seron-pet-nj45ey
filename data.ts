@@ -1,0 +1,143 @@
+export const pets = [
+  {
+    id: '1',
+    name: 'Buddy',
+    type: 'Dog',
+    breed: 'Golden Retriever',
+    age: '2 years',
+    gender: 'Male',
+    size: 'Large',
+    story: 'Buddy is a playful and friendly Golden Retriever who loves fetching balls and getting belly rubs. He was found wandering and is now looking for a family to give him all the love he deserves.',
+    personalityTraits: ['Friendly', 'Playful', 'Loyal', 'Energetic'],
+    images: ['/pets/dog1.jpg', '/pets/dog1-2.jpg', '/pets/dog1-3.jpg', '/pets/dog1-4.jpg'],
+  },
+  {
+    id: '2',
+    name: 'Lucy',
+    type: 'Cat',
+    breed: 'Siamese',
+    age: '1 year',
+    gender: 'Female',
+    size: 'Small',
+    story: 'Lucy is a curious and affectionate Siamese cat. She enjoys lounging in sunny spots and chasing laser pointers. She is a bit shy at first but warms up quickly to become a loving companion.',
+    personalityTraits: ['Affectionate', 'Curious', 'Calm', 'Vocal'],
+    images: ['/pets/cat1.jpg', '/pets/cat1-2.jpg', '/pets/cat1-3.jpg', '/pets/cat1-4.jpg'],
+  },
+  {
+    id: '3',
+    name: 'Max',
+    type: 'Dog',
+    breed: 'German Shepherd',
+    age: '3 years',
+    gender: 'Male',
+    size: 'Large',
+    story: 'Max is an intelligent and protective German Shepherd. He is well-trained and would thrive in a home with an experienced owner who can provide him with plenty of exercise and mental stimulation.',
+    personalityTraits: ['Intelligent', 'Protective', 'Obedient', 'Active'],
+    images: ['/pets/dog2.jpg', '/pets/dog2-2.jpg', '/pets/dog2-3.jpg', '/pets/dog2-4.jpg'],
+  },
+  {
+    id: '4',
+    name: 'Daisy',
+    type: 'Dog',
+    breed: 'Beagle',
+    age: '4 years',
+    gender: 'Female',
+    size: 'Medium',
+    story: 'Daisy is a sweet and gentle Beagle with a heart of gold. She loves long walks and sniffing out new scents. She gets along well with other dogs and children.',
+    personalityTraits: ['Gentle', 'Curious', 'Sociable', 'Happy'],
+    images: ['/pets/dog3.jpg', '/pets/dog3-2.jpg', '/pets/dog3-3.jpg', '/pets/dog3-4.jpg'],
+  },
+  {
+    id: '5',
+    name: 'Simba',
+    type: 'Cat',
+    breed: 'Maine Coon',
+    age: '2 years',
+    gender: 'Male',
+    size: 'Large',
+    story: 'Simba is a majestic Maine Coon with a gentle giant personality. He loves to cuddle and is very patient with children. His long, fluffy coat requires regular grooming.',
+    personalityTraits: ['Gentle', 'Cuddly', 'Patient', 'Playful'],
+    images: ['/pets/cat2.jpg', '/pets/cat2-2.jpg', '/pets/cat2-3.jpg', '/pets/cat2-4.jpg'],
+  },
+  {
+    id: '6',
+    name: 'Rocky',
+    type: 'Dog',
+    breed: 'Boxer',
+    age: '5 years',
+    gender: 'Male',
+    size: 'Medium',
+    story: 'Rocky is a goofy and energetic Boxer who will keep you entertained with his silly antics. He needs a home with a fenced yard where he can run and play freely.',
+    personalityTraits: ['Energetic', 'Goofy', 'Loyal', 'Brave'],
+    images: ['/pets/dog4.jpg', '/pets/dog4-2.jpg', '/pets/dog4-3.jpg', '/pets/dog4-4.jpg'],
+  },
+];
+
+export const featuredPets = pets.slice(0, 4);
+
+export const quizQuestions = [
+    {
+        id: 'q1',
+        question: 'What is your living situation?',
+        options: ['Apartment', 'House with a small yard', 'House with a large yard', 'Farm/Rural property'],
+    },
+    {
+        id: 'q2',
+        question: 'How active are you?',
+        options: ['Couch potato', 'Occasional walks', 'Active daily', 'Extremely active / Athlete'],
+    },
+    {
+        id: 'q3',
+        question: 'How much time can you dedicate to a pet daily?',
+        options: ['Less than 1 hour', '1-2 hours', '2-4 hours', 'More than 4 hours'],
+    },
+    {
+        id: 'q4',
+        question: 'Do you have other pets at home?',
+        options: ['No, I want my pet to be the only one', 'Yes, I have other dogs', 'Yes, I have other cats', 'Yes, I have other types of pets'],
+    },
+    {
+        id: 'q5',
+        question: 'What pet size are you looking for?',
+        options: ['Small', 'Medium', 'Large', 'No preference'],
+    },
+];
+
+export const petCareTips = [
+    {
+        id: 1,
+        title: 'Choosing the Right Food',
+        category: 'Health',
+        content: 'Select a high-quality pet food that is appropriate for your pet’s age, size, and activity level. Look for foods with real meat as the first ingredient.',
+    },
+    {
+        id: 2,
+        title: 'Basic Obedience Training',
+        category: 'Training',
+        content: 'Start with basic commands like sit, stay, and come. Use positive reinforcement techniques such as treats and praise to encourage good behavior.',
+    },
+    {
+        id: 3,
+        title: 'Socializing Your New Pet',
+        category: 'Behavior',
+        content: 'Gradually introduce your new pet to new people, places, and other animals in a controlled and positive way to build their confidence.',
+    },
+    {
+        id: 4,
+        title: 'Regular Vet Check-ups',
+        category: 'Health',
+        content: 'Schedule annual wellness exams with your veterinarian to keep your pet up-to-date on vaccinations and prevent health issues.',
+    },
+    {
+        id: 5,
+        title: 'House Training Tips',
+        category: 'Training',
+        content: 'Establish a routine, use a designated potty spot, and reward your pet for successfully going outside. Consistency is key.',
+    },
+    {
+        id: 6,
+        title: 'Creating a Safe Space',
+        category: 'Behavior',
+        content: 'Provide your pet with a comfortable and safe space of their own, like a crate or a cozy bed, where they can retreat and relax.',
+    },
+];
