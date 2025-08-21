@@ -1,75 +1,83 @@
-'use client';
+import PetCard from "@/components/PetCard";
+import { Button } from "@/components/ui/Button";
+import { pets } from "@/lib/mockData";
+import { PawPrint, Search } from "lucide-react";
+import Link from "next/link";
 
-import { useState, useMemo } from 'react';
-import { PetCard } from '@/components/PetCard';
-import { PetFilter } from '@/components/PetFilter';
-import { allPets, Pet } from '@/data/pets';
-import { Input } from '@/components/ui/input';
-import { Search } from 'lucide-react';
-
-export default function PetsPage() {
-  const [filters, setFilters] = useState({
-    species: 'all',
-    age: 'all',
-    size: 'all',
-  });
-  const [searchTerm, setSearchTerm] = useState('');
-
-  const filteredPets = useMemo(() => {
-    return allPets.filter(pet => {
-      const matchesFilter = 
-        (filters.species === 'all' || pet.species === filters.species) &&
-        (filters.age === 'all' || pet.ageCategory === filters.age) &&
-        (filters.size === 'all' || pet.size === filters.size);
-      
-      const matchesSearch = 
-        searchTerm === '' ||
-        pet.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
-        pet.breed.toLowerCase().includes(searchTerm.toLowerCase());
-
-      return matchesFilter && matchesSearch;
-    });
-  }, [filters, searchTerm]);
+export default function HomePage() {
+  const featuredPets = pets.slice(0, 4);
 
   return (
-    <div className="container mx-auto px-4 py-12">
-      <div className="text-center mb-12">
-        <h1 className="text-4xl md:text-5xl font-bold text-slate-800 mb-2">Meet Your New Best Friend</h1>
-        <p className="text-lg text-slate-600">Browse our available pets and find the perfect companion for your family.</p>
-      </div>
-      
-      <div className="flex flex-col md:flex-row gap-8 mb-8">
-        <div className="w-full md:w-1/4">
-          <div className="sticky top-24">
-             <div className="relative mb-4">
-                <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-5 w-5 text-gray-400" />
-                <Input 
-                    type="text"
-                    placeholder="Search by name or breed..."
-                    className="pl-10 w-full"
-                    value={searchTerm}
-                    onChange={(e) => setSearchTerm(e.target.value)}
-                />
-            </div>
-            <PetFilter filters={filters} setFilters={setFilters} />
+    <div className="space-y-16 md:space-y-24 pb-16">
+      {/* Hero Section */}
+      <section className="relative pt-24 pb-12 md:pt-32 md:pb-20 text-center bg-white overflow-hidden">
+        <div className="absolute inset-0 bg-gradient-to-b from-rose-100 to-teal-100 opacity-50"></div>
+        <div className="container mx-auto px-4 relative">
+          <PawPrint className="mx-auto h-16 w-16 text-rose-400 mb-4" />
+          <h1 className="text-4xl md:text-6xl font-extrabold text-slate-800 tracking-tight mb-4">
+            Find Your <span className="text-rose-500">Forever</span> Friend
+          </h1>
+          <p className="max-w-2xl mx-auto text-lg md:text-xl text-slate-600 mb-8">
+            Welcome to PawsConnect, where loving homes meet adorable pets. Start your journey to find a loyal companion today.
+          </p>
+          <div className="flex flex-col sm:flex-row gap-4 justify-center">
+            <Button asChild size="lg">
+              <Link href="/pets">
+                <Search className="mr-2 h-5 w-5" />
+                Meet the Pets
+              </Link>
+            </Button>
+            <Button asChild size="lg" variant="outline">
+              <Link href="/quiz">Take the Matching Quiz</Link>
+            </Button>
           </div>
         </div>
+      </section>
 
-        <div className="w-full md:w-3/4">
-          {filteredPets.length > 0 ? (
-            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
-              {filteredPets.map(pet => (
-                <PetCard key={pet.id} pet={pet} />
-              ))}
-            </div>
-          ) : (
-            <div className="text-center py-20 bg-gray-50 rounded-lg">
-                <p className="text-xl text-slate-600">No pets match your criteria.</p>
-                <p className="text-slate-500 mt-2">Try adjusting your filters or search term!</p>
-            </div>
-          )}
+      {/* Featured Pets Section */}
+      <section className="container mx-auto px-4">
+        <h2 className="text-3xl font-bold text-slate-800 text-center mb-8">Featured Pets</h2>
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8">
+          {featuredPets.map((pet) => (
+            <PetCard key={pet.id} pet={pet} />
+          ))}
         </div>
-      </div>
+         <div className="text-center mt-12">
+            <Button asChild size="lg" variant="secondary">
+              <Link href="/pets">View All Pets</Link>
+            </Button>
+        </div>
+      </section>
+
+      {/* How It Works Section */}
+      <section className="bg-white py-16">
+        <div className="container mx-auto px-4">
+          <h2 className="text-3xl font-bold text-slate-800 text-center mb-12">Your Adoption Journey</h2>
+          <div className="grid md:grid-cols-3 gap-8 text-center">
+            <div className="p-6">
+              <div className="flex items-center justify-center h-16 w-16 rounded-full bg-rose-100 text-rose-500 mx-auto mb-4">
+                <Search className="h-8 w-8" />
+              </div>
+              <h3 className="text-xl font-semibold text-slate-700 mb-2">1. Find a Pet</h3>
+              <p className="text-slate-500">Browse our adorable pets or take the quiz to find your perfect match.</p>
+            </div>
+            <div className="p-6">
+              <div className="flex items-center justify-center h-16 w-16 rounded-full bg-teal-100 text-teal-500 mx-auto mb-4">
+                <PawPrint className="h-8 w-8" />
+              </div>
+              <h3 className="text-xl font-semibold text-slate-700 mb-2">2. Meet & Greet</h3>
+              <p className="text-slate-500">Schedule a virtual or in-person meeting to get to know them.</p>
+            </div>
+            <div className="p-6">
+              <div className="flex items-center justify-center h-16 w-16 rounded-full bg-amber-100 text-amber-500 mx-auto mb-4">
+                <PawPrint className="h-8 w-8" />
+              </div>
+              <h3 className="text-xl font-semibold text-slate-700 mb-2">3. Adopt & Love</h3>
+              <p className="text-slate-500">Complete the adoption process and welcome your new best friend home.</p>
+            </div>
+          </div>
+        </div>
+      </section>
     </div>
   );
 }
