@@ -1,55 +1,80 @@
-'use client';
-
-import { useState, useMemo } from 'react';
 import { allPets } from '@/data/pets';
-import { PetCard } from '@/components/PetCard';
-import { PetFilterSidebar } from '@/components/PetFilterSidebar';
-import type { Pet } from '@/lib/types';
-import { Frown } from 'lucide-react';
+import { notFound } from 'next/navigation';
+import { Button } from '@/components/ui/Button';
+import { Badge } from '@/components/ui/Badge';
+import { PawPrint, Cake, Ruler, VenetianMask, Heart } from 'lucide-react';
 
-export default function BrowsePage() {
-  const [filters, setFilters] = useState({
-    type: 'all',
-    age: 'all',
-    size: 'all',
-    gender: 'all',
-  });
+export default function PetDetailPage({ params }: { params: { id: string } }) {
+  const pet = allPets.find(p => p.id === params.id);
 
-  const filteredPets = useMemo(() => {
-    return allPets.filter(pet => {
-      if (filters.type !== 'all' && pet.type.toLowerCase() !== filters.type) return false;
-      if (filters.age !== 'all' && pet.ageCategory.toLowerCase() !== filters.age) return false;
-      if (filters.size !== 'all' && pet.size.toLowerCase() !== filters.size) return false;
-      if (filters.gender !== 'all' && pet.gender.toLowerCase() !== filters.gender) return false;
-      return true;
-    });
-  }, [filters]);
+  if (!pet) {
+    notFound();
+  }
 
   return (
     <div className="container mx-auto px-4 py-12">
-      <div className="text-center mb-12">
-        <h1 className="text-4xl font-bold text-rose-500">Find Your New Best Friend</h1>
-        <p className="mt-2 text-gray-600">Browse our available pets and find the perfect one for you.</p>
-      </div>
-      <div className="flex flex-col md:flex-row gap-8">
-        <aside className="w-full md:w-1/4 lg:w-1/5">
-          <PetFilterSidebar filters={filters} setFilters={setFilters} />
-        </aside>
-        <main className="w-full md:w-3/4 lg:w-4/5">
-          {filteredPets.length > 0 ? (
-            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8">
-              {filteredPets.map((pet: Pet) => (
-                <PetCard key={pet.id} pet={pet} />
+      <div className="grid md:grid-cols-2 gap-12 items-start">
+        {/* Image Gallery */}
+        <div>
+          <img src={pet.images[0]} alt={`Main image of ${pet.name}`} className="w-full h-auto object-cover rounded-2xl shadow-lg" />
+          <div className="grid grid-cols-3 gap-4 mt-4">
+            {pet.images.slice(1).map((img, index) => (
+              <img key={index} src={img} alt={`${pet.name} view ${index + 1}`} className="w-full h-32 object-cover rounded-lg shadow-md" />
+            ))}
+          </div>
+        </div>
+
+        {/* Pet Details */}
+        <div className="bg-white p-8 rounded-2xl shadow-lg">
+          <div className="flex justify-between items-start">
+            <div>
+                <h1 className="text-4xl font-bold text-rose-500">{pet.name}</h1>
+                <p className="text-gray-500 mt-1 text-lg">{pet.breed}</p>
+            </div>
+            <Badge className="capitalize bg-rose-100 text-rose-600 text-sm">{pet.type}</Badge>
+          </div>
+
+          <div className="mt-6 grid grid-cols-2 gap-6 text-center">
+            <div className="bg-rose-50 p-4 rounded-lg">
+                <Cake className="h-8 w-8 text-rose-400 mx-auto" />
+                <p className="font-semibold mt-2">Age</p>
+                <p className="text-gray-600">{pet.age}</p>
+            </div>
+            <div className="bg-rose-50 p-4 rounded-lg">
+                <Ruler className="h-8 w-8 text-rose-400 mx-auto" />
+                <p className="font-semibold mt-2">Size</p>
+                <p className="text-gray-600">{pet.size}</p>
+            </div>
+            <div className="bg-rose-50 p-4 rounded-lg">
+                <VenetianMask className="h-8 w-8 text-rose-400 mx-auto" />
+                <p className="font-semibold mt-2">Gender</p>
+                <p className="text-gray-600">{pet.gender}</p>
+            </div>
+            <div className="bg-rose-50 p-4 rounded-lg">
+                <PawPrint className="h-8 w-8 text-rose-400 mx-auto" />
+                <p className="font-semibold mt-2">Category</p>
+                <p className="text-gray-600">{pet.ageCategory}</p>
+            </div>
+          </div>
+
+          <div className="mt-8">
+            <h3 className="text-xl font-semibold text-gray-800">About {pet.name}</h3>
+            <p className="text-gray-600 mt-2">{pet.description}</p>
+          </div>
+
+          <div className="mt-8">
+            <h3 className="text-xl font-semibold text-gray-800">Personality</h3>
+            <div className="flex flex-wrap gap-2 mt-3">
+              {pet.personalityTraits.map(trait => (
+                <Badge key={trait} variant="secondary" className="bg-teal-100 text-teal-700">{trait}</Badge>
               ))}
             </div>
-          ) : (
-            <div className="flex flex-col items-center justify-center text-center h-full bg-gray-50 rounded-lg p-12">
-                <Frown className="h-16 w-16 text-gray-400" />
-                <h2 className="mt-4 text-2xl font-semibold text-gray-700">No Pets Found</h2>
-                <p className="mt-2 text-gray-500">Try adjusting your filters to find more furry friends!</p>
-            </div>
-          )}
-        </main>
+          </div>
+
+          <Button size="lg" className="w-full mt-10 bg-rose-500 hover:bg-rose-600 text-white">
+            <Heart className="mr-2 h-5 w-5" /> Adopt {pet.name}
+          </Button>
+        </div>
       </div>
     </div>
   );
