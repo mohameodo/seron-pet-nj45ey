@@ -1,72 +1,76 @@
-'use client';
+import Link from 'next/link';
+import { Button } from '@/components/ui/Button';
+import { PetCard } from '@/components/PetCard';
+import { featuredPets } from '@/data/pets';
+import { PawPrint, Heart, Search } from 'lucide-react';
 
-import { useState } from 'react';
-import { ChevronDown } from 'lucide-react';
-
-const careTips = [
-  {
-    title: 'Choosing the Right Food',
-    content: 'Look for high-quality pet food that lists a specific meat as the first ingredient. Avoid fillers like corn and soy. The right food depends on your pet\'s age, size, and activity level. Consult your vet for personalized recommendations.',
-  },
-  {
-    title: 'Establishing a Routine',
-    content: 'Pets thrive on routine. Try to feed, walk, and play with your pet at the same times each day. This helps them feel secure and can reduce anxiety and behavioral issues.',
-  },
-  {
-    title: 'Socialization is Key',
-    content: 'Proper socialization from a young age is crucial. Safely expose your puppy or kitten to various people, places, sounds, and other animals to help them grow into a well-adjusted adult.',
-  },
-  {
-    title: 'Regular Vet Check-ups',
-    content: 'Annual check-ups are essential for catching potential health problems early. Keep up with vaccinations, parasite control, and dental cleanings as recommended by your veterinarian.',
-  },
-];
-
-const AccordionItem = ({ title, content, isOpen, onClick }: { title: string, content: string, isOpen: boolean, onClick: () => void }) => (
-  <div className="border-b border-slate-200">
-    <h2>
-      <button
-        type="button"
-        className="flex justify-between items-center w-full p-5 font-medium text-left text-slate-700 hover:bg-rose-50 focus:outline-none focus:ring-2 focus:ring-rose-200"
-        onClick={onClick}
-        aria-expanded={isOpen}
-      >
-        <span>{title}</span>
-        <ChevronDown className={`w-6 h-6 shrink-0 transition-transform duration-200 ${isOpen ? 'rotate-180' : ''}`} />
-      </button>
-    </h2>
-    <div className={`overflow-hidden transition-all duration-300 ease-in-out ${isOpen ? 'max-h-96' : 'max-h-0'}`}>
-      <div className="p-5 border-t-0 border-slate-200">
-        <p className="text-slate-500">{content}</p>
-      </div>
-    </div>
-  </div>
-);
-
-export default function TipsPage() {
-  const [openIndex, setOpenIndex] = useState<number | null>(0);
-
-  const handleClick = (index: number) => {
-    setOpenIndex(openIndex === index ? null : index);
-  };
-
+export default function HomePage() {
   return (
-    <div className="bg-white py-16">
-      <div className="container mx-auto px-4 max-w-3xl">
-        <h1 className="text-4xl font-bold text-center text-slate-800 mb-2">Pet Care Tips</h1>
-        <p className="text-center text-slate-500 mb-8">Essential advice for a happy and healthy companion.</p>
-        <div className="bg-white rounded-xl shadow-lg border border-slate-100 overflow-hidden">
-          {careTips.map((tip, index) => (
-            <AccordionItem
-              key={index}
-              title={tip.title}
-              content={tip.content}
-              isOpen={openIndex === index}
-              onClick={() => handleClick(index)}
-            />
+    <div className="space-y-20 md:space-y-32 pb-20">
+      {/* Hero Section */}
+      <section className="bg-rose-100 pt-20">
+        <div className="container mx-auto px-4 grid md:grid-cols-2 gap-8 items-center">
+          <div className="text-center md:text-left">
+            <h1 className="text-4xl md:text-6xl font-bold text-rose-500 leading-tight">Find Your <br/>Forever Friend</h1>
+            <p className="mt-4 text-lg text-gray-700 max-w-lg mx-auto md:mx-0">Discover adorable pets waiting for a loving home. Your new best friend is just a click away.</p>
+            <div className="mt-8 flex flex-col sm:flex-row gap-4 justify-center md:justify-start">
+              <Button asChild size="lg" className="bg-rose-500 hover:bg-rose-600 text-white">
+                <Link href="/browse">Browse Pets <Search className="ml-2 h-5 w-5" /></Link>
+              </Button>
+              <Button asChild size="lg" variant="outline" className="border-rose-500 text-rose-500 hover:bg-rose-50">
+                <Link href="/quiz">Take the Quiz <Heart className="ml-2 h-5 w-5" /></Link>
+              </Button>
+            </div>
+          </div>
+          <div className="relative h-80 md:h-[500px]">
+             <img src="https://loremflickr.com/800/800/happy,dog,cat?lock=101" alt="Happy dog and cat" className="absolute bottom-0 left-1/2 -translate-x-1/2 w-full h-full object-contain" />
+          </div>
+        </div>
+      </section>
+
+      {/* Featured Pets Section */}
+      <section className="container mx-auto px-4">
+        <div className="text-center">
+          <PawPrint className="mx-auto h-12 w-12 text-rose-400" />
+          <h2 className="text-3xl md:text-4xl font-bold mt-4">Meet Some Friends</h2>
+          <p className="mt-2 text-gray-600">These lovely pets are looking for a new family right now</p>
+        </div>
+        <div className="mt-12 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8">
+          {featuredPets.map(pet => (
+            <PetCard key={pet.id} pet={pet} />
           ))}
         </div>
-      </div>
+        <div className="text-center mt-12">
+            <Button asChild size="lg" variant="ghost" className="text-rose-500 hover:bg-rose-100">
+                <Link href="/browse">View All Pets &rarr;</Link>
+            </Button>
+        </div>
+      </section>
+
+      {/* How It Works Section */}
+      <section className="bg-teal-50 py-20">
+        <div className="container mx-auto px-4 text-center">
+            <h2 className="text-3xl md:text-4xl font-bold">Adoption Made Easy</h2>
+            <p className="mt-2 text-gray-600 max-w-2xl mx-auto">Follow these simple steps to bring home your new companion.</p>
+            <div className="mt-12 grid md:grid-cols-3 gap-12 text-left">
+                <div className="flex flex-col items-center text-center">
+                    <div className="bg-white p-6 rounded-full shadow-lg border-4 border-teal-200"><Search className="h-10 w-10 text-teal-500"/></div>
+                    <h3 className="text-xl font-semibold mt-6">1. Search for a Pet</h3>
+                    <p className="mt-2 text-gray-500">Browse through our lovely pets or take the quiz to find your perfect match.</p>
+                </div>
+                <div className="flex flex-col items-center text-center">
+                    <div className="bg-white p-6 rounded-full shadow-lg border-4 border-teal-200"><Heart className="h-10 w-10 text-teal-500"/></div>
+                    <h3 className="text-xl font-semibold mt-6">2. Meet & Greet</h3>
+                    <p className="mt-2 text-gray-500">Schedule a visit to meet your potential new friend and see if you connect.</p>
+                </div>
+                <div className="flex flex-col items-center text-center">
+                    <div className="bg-white p-6 rounded-full shadow-lg border-4 border-teal-200"><PawPrint className="h-10 w-10 text-teal-500"/></div>
+                    <h3 className="text-xl font-semibold mt-6">3. Adopt & Welcome Home</h3>
+                    <p className="mt-2 text-gray-500">Complete the adoption process and start your new life together.</p>
+                </div>
+            </div>
+        </div>
+      </section>
     </div>
   );
 }
